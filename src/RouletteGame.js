@@ -66,7 +66,10 @@ const RouletteGame = () => {
   };
 
   return (
-    <div className="improved-roulette-game">
+
+    <div className="table">
+      <div className="tablepre flex flex-col ">
+
       <div className="game-header">
         <h1>Casino Royale Roulette</h1>
         <div className="game-info">
@@ -74,32 +77,32 @@ const RouletteGame = () => {
           <div>Total Bet: {currentBet}€</div>
         </div>
         <button onClick={() => setSound(!sound)} className="sound-toggle">
-          <Volume2 size={24} />
+          <Volume2 size={34} />
         </button>
       </div>
       
-      <div className="game-layout">
-        <div className="left-column">
+      <div className="improved-roulette-game">
+      
+      
+      <div className="game-layout mt-5">
+        <div className="left-column mt-3 flex flex-col items-center">
             <RouletteWheel spinning={spinning} onSpinComplete={handleSpinComplete} />
-            <div className="action-buttons mt-4 flex justify-center space-x-4">
-                  <button 
-                    onClick={clearAllBets} 
-                    disabled={spinning} 
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50 hover:bg-red-600 transition-colors"
-                  >
-                    Clear Bets
-                  </button>
+            <div className="action-buttons mt-4  ">
+                 
                   <button 
                     onClick={spin} 
                     disabled={spinning || currentBet === 0} 
-                    className="px-4 py-2 bg-green-500 text-white rounded-lg disabled:opacity-50 hover:bg-green-600 transition-colors"
+                    className="px-8 py-4 bg-green-500 text-white rounded-lg disabled:opacity-50 hover:bg-green-600 transition-colors"
                   >
                     Spin the Wheel
                   </button>
-                </div>
+            </div>
           </div>
-          <div className="right-column">
-            <BettingTable onBet={placeBet} bets={bets} />
+          <div className="right-column mt-5 flex flex-col ">
+            <div >
+              <BettingTable onBet={placeBet} bets={bets} />
+            </div>
+
             <div className="coin-rack">
               {COIN_VALUES.map((value, index) => (
                 <CoinIcon 
@@ -111,7 +114,25 @@ const RouletteGame = () => {
                 />
               ))}
             </div>
+
+            <div className="space-y-2 boutons"> {/* Ajoute un espacement vertical entre les boutons */}
+              <button 
+                onClick={clearAllBets} 
+                disabled={spinning} 
+                className="px-8 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50 hover:bg-red-600 transition-colors"
+              >
+                Clear Bets
+              </button>
+              
+              <button 
+                onClick={clearAllBets} 
+                className="px-8 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50 hover:bg-red-600 transition-colors"
+              >
+                Clear Last Bets
+              </button>
+            </div>           
           </div>
+
       </div>
 
       <AnimatePresence>
@@ -127,6 +148,10 @@ const RouletteGame = () => {
         )}
       </AnimatePresence>
     </div>
+    </div>
+    </div>
+    
+    
   );
 };
 

@@ -1,0 +1,39 @@
+
+.betting-table{
+    height: 100%;
+    width: 100% ;
+}
+.betting-options button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Style pour le bouton Red */
+.red-button {
+    background-color: #ff0000; /* Rouge vif */
+}
+
+/* Style pour le bouton White */
+.white-button {
+    background-color: #000; /* Blanc */
+    border: 1px solid #ddd; /* Ajout d'une bordure pour la lisibilité */
+}
+
+/* Style pour le bouton Odd (attrayant) */
+.odd-button {
+    background-color: #ff9800; /* Orange attrayant */
+    border: 2px solid #ff5722; /* Ajout d'une bordure contrastée */
+    font-weight: bold;
+}
+
+/* Style pour le bouton Even (attrayant) */
+.even-button {
+    background-color: #4caf50; /* Vert attrayant */
+    border: 2px solid #388e3c; /* Bordure contrastée */
+    font-weight: bold;
+}
+
