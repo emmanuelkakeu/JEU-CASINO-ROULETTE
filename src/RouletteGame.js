@@ -139,14 +139,16 @@ const RouletteGame = () => {
         {lastResult !== null && !spinning && (
           <motion.div 
             className="last-result"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -50, opacity: 0 }}
+            initial={{ y: 50, opacity: 0 }}  // État initial
+            animate={{ y: 0, opacity: 1 }}   // État final (visible)
+            exit={{ y: -50, opacity: 0 }}    // Animation de sortie (disparition)
+            transition={{ duration: 1 }}     // Durée de l'animation d'une seconde
           >
-            Last Result: {lastResult}
+            Last Result: {lastResult} 
           </motion.div>
         )}
-      </AnimatePresence>
+    </AnimatePresence>
+
     </div>
     </div>
     </div>

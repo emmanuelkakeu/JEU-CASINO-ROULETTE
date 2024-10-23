@@ -1,96 +1,98 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import './RouletteWheel.css';
 
 const RouletteWheel = ({ spinning, onSpinComplete }) => {
   const [wheelRotation, setWheelRotation] = useState(0);
   const [result, setResult] = useState(null);
+  const [showResult, setShowResult] = useState(false); // État pour gérer l'affichage temporaire du résultat
 
   const numbers = Array.from({ length: 22 }, (_, i) => i);
 
   // Calcul de l'angle de chaque segment (22 segments dans la roue)
-  const segmentAngle = 360 / numbers.length; // Chaque segment couvre cet angle
+  const segmentAngle = 360 / numbers.length;
 
+  // Alternating colors: Red for even numbers, Black for odd numbers
   const getColor = (number) => {
     return number % 2 === 0 ? 'bg-red-500 text-white' : 'bg-black text-white';
   };
 
   const spinWheel = useCallback(() => {
-    const spinDuration = 5000; // Durée du spin en millisecondes
-    const spinRotations = Math.floor(Math.random() * 5) + 5; // 5 à 10 rotations complètes
+    const spinDuration = 5000; // Duration of spin in milliseconds
+    const spinRotations = Math.floor(Math.random() * 5) + 5; // 5 to 10 full rotations
 
-    // Générer un numéro aléatoire gagnant entre 0 et 21
-    const randomResult = Math.floor(Math.random() * 22); // Choisir le numéro gagnant
+    // Generate a random winning number between 0 and 21
+    const randomResult = Math.floor(Math.random() * 22);
 
-    // Calcul de la rotation finale pour arrêter la roue sur le numéro gagnant
+    // Calculate the final rotation to stop the wheel on the winning number
     const finalRotation = spinRotations * 360 + (22 - randomResult) * segmentAngle;
 
-    // Appliquer la rotation à la roue
+    // Apply the rotation to the wheel
     setWheelRotation(finalRotation);
 
-    // Après la durée du spin, afficher le résultat
-    setTimeout(() => {
-      setResult(randomResult);
-    }, spinDuration);
-
-    // Appeler la fonction `onSpinComplete` après un délai pour réinitialiser le spin
+    // Call onSpinComplete function after a delay to reset the spin and show the result after the wheel returns to its position
     setTimeout(() => {
       onSpinComplete(randomResult);
-    }, spinDuration + 1000); // Le temps pour afficher le résultat avant la réinitialisation
-  }, [onSpinComplete, segmentAngle]); // Ajout de `segmentAngle` dans les dépendances
+      setResult(randomResult);
+      setTimeout(() => {
+        setShowResult(true); // Show the result after the wheel stops
+      }, 500); 
+      setTimeout(() => setShowResult(false), 2000);
+    }, spinDuration);
+
+  }, [onSpinComplete, segmentAngle]);
 
   useEffect(() => {
     if (spinning) {
-      // Si le bouton de spin est activé, lancer la fonction pour tourner la roue
+      // If the spin button is activated, launch the spin function
       spinWheel();
     } else {
-      // Si le spin est terminé, réinitialiser l'état
+      // If the spin is complete, reset the state
       setWheelRotation(0);
-      setResult(null);
+      setShowResult(false);
     }
   }, [spinning, spinWheel]);
 
   return (
-    
-    <div className="relative w-[400px] h-[400px] mb-2">
-      {/* Roue qui tourne */}
+    <div className="roulette-wheel-container">
+      {/* 3D Wheel with bombed effect */}
       <motion.div 
-        className="absolute inset-0 rounded-full border-8 border-yellow-600 bg-yellow-400 overflow-hidden"
+        className="roulette-wheel"
         animate={{ rotate: wheelRotation }}
-        transition={{ duration: 5, ease: "easeOut" }} // Transition fluide de la rotation
+        transition={{ duration: 5, ease: "easeOut" }}
       >
         {numbers.map((number, index) => {
-          // Calculer l'angle pour positionner chaque numéro sur la roue
           const angle = (index * 360) / numbers.length;
           return (
             <div
               key={number}
               className="absolute inset-0"
               style={{
-                transform: `rotate(${angle}deg)`, // Positionner chaque numéro
+                transform: `rotate(${angle}deg)`, // Position each number
               }}
             >
               <div className="absolute top-0 left-1/2 h-1/2 w-2 bg-yellow-600 transform -translate-x-1/2"></div>
               <div className="absolute top-4 left-1/2 h-9 w-9 bg-yellow-200 transform -translate-x-1/2 rotate-45"></div>
-              <div className={`absolute top-14 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full ${getColor(number)} flex items-center justify-center font-bold text-lg`}>
-                {number} {/* Affichage des numéros */}
+              <div className={`absolute top-14 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full ${getColor(number)} flex items-center justify-center font-bold text-lg number-slot`}>
+                {number}
               </div>
             </div>
           );
         })}
       </motion.div>
 
-      {/* Pointeur triangulaire (fixe) */}
+      {/* Pointer at the center */}
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <div
           className="w-0 h-0 border-l-8 border-r-8 border-t-[36px] border-l-transparent border-r-transparent border-t-blue-600"
-          style={{ position: 'absolute', top: '0px', left: '50%', transform: 'translateX(-50%) rotate(360deg)' }} // Pointe vers l'intérieur
+          style={{ position: 'absolute', top: '0px', left: '50%', transform: 'translateX(-50%) rotate(360deg)' }}
         />
       </div>
 
-      {/* Message gagnant */}
-      {!spinning && result !== null && (
+      {/* Winning result */}
+      {!spinning && showResult && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-2xl font-bold z-30">
-          Numero Gagnant: {result} {/* Affichage du numéro gagnant */}
+          Numero Gagnant: {result}
         </div>
       )}
     </div>

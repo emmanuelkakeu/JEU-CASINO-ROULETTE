@@ -157,40 +157,7 @@
     border: 2px solid #ffd700;
   }
   
-  .roulette-wheel-container {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    margin: 0 auto;
-  }
   
-  .roulette-wheel {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #32a852;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .wheel-outer-ring {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border-radius: 50%;
-    border: 10px solid #c0c0c0;
-  }
-  
-  .wheel-numbers-ring {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    right: 25px;
-    bottom: 25px;
-    border-radius :50%
-  }
 
   .boutons{
     display: flex;
