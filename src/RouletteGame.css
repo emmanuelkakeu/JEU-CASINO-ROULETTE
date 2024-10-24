@@ -64,18 +64,23 @@
   
   .game-layout {
     display: flex;
-    gap: 40px;
-    margin-right: 50px;
+    gap: 0px;
+    margin-right: 0px;
   }
   
   .right-column, .left-column {
     flex: 1;
-  }
+}
 
-  /* .left-column{
-    margin-left: 100px;
-    
-  } */
+.right-column {
+   
+    min-height: 300px; /* Exemple de valeur minimum de hauteur */
+    max-height: 550px; /* Exemple de valeur maximum de hauteur */
+    min-width: 300px; /* Exemple de valeur minimum de largeur */
+    max-width: 700%; /* Exemple de valeur maximum de largeur */
+    overflow-y: auto; /* Ajoute un défilement vertical si le contenu dépasse la hauteur max */
+}
+
   
   .betting-table {
     background-color: #16213e;
@@ -86,7 +91,7 @@
   .number-grid {
     display: grid;
     grid-template-columns: repeat(11, 1fr);
-    gap: 10px;
+    gap: 0px;
   }
   
   .number {
@@ -113,8 +118,8 @@
     background-color: #ffd700;
     color: #000;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     font-size: 12px;
     display: flex;
     justify-content: center;
@@ -124,7 +129,7 @@
   .betting-options {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .betting-options button {
@@ -138,7 +143,7 @@
   .coin-rack {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 30px;
     font-size: 20px;
   }
   

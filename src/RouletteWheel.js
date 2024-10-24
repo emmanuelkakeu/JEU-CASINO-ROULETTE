@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import './RouletteWheel.css';
+import { useSearchParams } from 'react-router-dom';
 
 const RouletteWheel = ({ spinning, onSpinComplete }) => {
   const [wheelRotation, setWheelRotation] = useState(0);
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false); // État pour gérer l'affichage temporaire du résultat
 
-  const numbers = Array.from({ length: 22 }, (_, i) => i);
+
+  const [searchParams] = useSearchParams();
+  const totalNumber = parseInt(searchParams.get('totalNumber')) || 18;
+  const numbers = Array.from({ length: totalNumber }, (_, i) => i);
+  console.log("Total number from URL:", totalNumber);
 
   // Calcul de l'angle de chaque segment (22 segments dans la roue)
-  const segmentAngle = 360 / numbers.length;
+  const segmentAngle = 360 /totalNumber;
 
   // Alternating colors: Red for even numbers, Black for odd numbers
   const getColor = (number) => {
@@ -21,12 +26,9 @@ const RouletteWheel = ({ spinning, onSpinComplete }) => {
     const spinDuration = 5000; // Duration of spin in milliseconds
     const spinRotations = Math.floor(Math.random() * 5) + 5; // 5 to 10 full rotations
 
-    // Generate a random winning number between 0 and 21
-    const randomResult = Math.floor(Math.random() * 22);
-
-    // Calculate the final rotation to stop the wheel on the winning number
-    const finalRotation = spinRotations * 360 + (22 - randomResult) * segmentAngle;
-
+    const randomResult = Math.floor(Math.random() * totalNumber);
+    const finalRotation = spinRotations * 360 + (totalNumber - randomResult) * segmentAngle;
+  
     // Apply the rotation to the wheel
     setWheelRotation(finalRotation);
 
@@ -40,7 +42,7 @@ const RouletteWheel = ({ spinning, onSpinComplete }) => {
       setTimeout(() => setShowResult(false), 2000);
     }, spinDuration);
 
-  }, [onSpinComplete, segmentAngle]);
+  }, [onSpinComplete, segmentAngle, totalNumber]);
 
   useEffect(() => {
     if (spinning) {
@@ -62,7 +64,7 @@ const RouletteWheel = ({ spinning, onSpinComplete }) => {
         transition={{ duration: 5, ease: "easeOut" }}
       >
         {numbers.map((number, index) => {
-          const angle = (index * 360) / numbers.length;
+          const angle = (index * 360) /totalNumber;
           return (
             <div
               key={number}

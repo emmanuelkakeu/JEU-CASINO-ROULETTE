@@ -2,18 +2,15 @@
 import RouletteGame from './RouletteGame';
 import './App.css';
 
-function App() {
- 
-  console.log("RouletteGame rendered");
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+function App() {
   return (
-   
-    <div className=" body">
-     
-      <div className="body-game">
-        <RouletteGame />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/roulette" element={<RouletteGame />} />
+      </Routes>
+    </Router>
   );
 }
 

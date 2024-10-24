@@ -6,6 +6,9 @@ import RouletteWheel from './RouletteWheel';
 import BettingTable from './BettingTable';
 import CoinIcon from './CoinIcon.js';
 import './RouletteGame.css';
+import { useSearchParams } from 'react-router-dom';
+
+
 
 const COIN_VALUES = [50, 100, 200, 500, 1000];
 const COIN_COLORS = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f7d794', '#786fa6'];
@@ -18,6 +21,9 @@ const RouletteGame = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState(COIN_VALUES[0]);
   const [sound, setSound] = useState(true);
+
+  const [searchParams] = useSearchParams();
+  const totalNumber = parseInt(searchParams.get('totalNumber')) || 18;
 
   const placeBet = (number) => {
     if (balance >= selectedCoin) {
@@ -55,7 +61,7 @@ const RouletteGame = () => {
         (bet === 'odd' && result % 2 !== 0) ||
         (bet === 'even' && result % 2 === 0)
       ) {
-        winnings += amount * (bet === result.toString() ? 22 : 2);
+        winnings += amount * (bet === result.toString() ? totalNumber : 2);
       }
     });
 
@@ -84,8 +90,8 @@ const RouletteGame = () => {
       <div className="improved-roulette-game">
       
       
-      <div className="game-layout mt-5">
-        <div className="left-column mt-3 flex flex-col items-center">
+      <div className="game-layout mt-2">
+        <div className="left-column mt-5 flex flex-col items-center">
             <RouletteWheel spinning={spinning} onSpinComplete={handleSpinComplete} />
             <div className="action-buttons mt-4  ">
                  
@@ -98,7 +104,7 @@ const RouletteGame = () => {
                   </button>
             </div>
           </div>
-          <div className="right-column mt-5 flex flex-col ">
+          <div className="right-column mt-2 flex flex-col ">
             <div >
               <BettingTable onBet={placeBet} bets={bets} />
             </div>

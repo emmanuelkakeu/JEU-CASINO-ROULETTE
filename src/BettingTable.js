@@ -1,12 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import './BettingTable.css'
+import { useSearchParams } from 'react-router-dom';
 
 const BettingTable = ({ onBet, bets }) => {
-  const numbers = Array.from({ length: 22 }, (_, i) => i);
+
+ 
+
+  const [searchParams] = useSearchParams();
+  const totalNumber = parseInt(searchParams.get('totalNumber')) || 18;
+  const numbers = Array.from({ length: totalNumber }, (_, i) => i);
+  console.log("Total number from URL:", totalNumber);
+
+
+  //const numbers = Array.from({ length: 22 }, (_, i) => i);
 
   return (
     <div className="betting-table">
+
+      {/* <h1> total number : {totalNumber} </h1> */}
       <div className="number-grid">
         {numbers.map(number => (
           <motion.div 
@@ -17,7 +29,7 @@ const BettingTable = ({ onBet, bets }) => {
             whileTap={{ scale: 0.9 }}
           >
             {number}
-            {bets[number] && <div className="bet-amount">{bets[number]}€</div>}
+            {bets[number] && <div className="bet-amount">{bets[number]}F</div>}
           </motion.div>
         ))}
       </div>

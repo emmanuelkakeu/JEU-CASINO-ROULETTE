@@ -11,7 +11,7 @@ const CoinIcon = ({ value, color, onClick, selected }) => (
     whileTap={{ scale: 0.9 }}
   >
     <FaCoins size={30} />
-    <span>{value}€</span>
+    <span>{value}XAF</span>
   </motion.div>
 );
 
